@@ -18,4 +18,4 @@ mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log("Conectado a MongoDB"))
     .catch(err => console.log(err)); 
 
-app.listen(4000, () => console.log("Servidor corriendo en el puerto 4000"));
+app.listen(5000, () => console.log("Servidor corriendo en el puerto 5000"));

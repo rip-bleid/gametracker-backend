@@ -1,7 +1,5 @@
 import mongoose from "mongoose"; 
 
-import mongoose from "mongoose";
-
 const juegoSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   genero: { type: String },

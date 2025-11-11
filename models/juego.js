@@ -1,5 +1,6 @@
 import mongoose from "mongoose"; 
 
+
 const juegoSchema = new mongoose.Schema({
   nombre: { type: String, required: true },
   genero: { type: String },
@@ -10,3 +11,4 @@ const juegoSchema = new mongoose.Schema({
 });
 
 export default mongoose.model("Juego", juegoSchema);
+

@@ -44,4 +44,17 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res) => {
+  const { email, contraseña } = req.body;
+  const usuario = await Usuario.findOne({ email });
+  if (!usuario) return res.status(404).json({ mensaje: "Usuario no encontrado" });
+  if (usuario.contraseña !== contraseña)
+    return res.status(401).json({ mensaje: "Contraseña incorrecta" });
+
+  // 🧠 Crear token
+  const token = jwt.sign({ id: usuario._id }, "secreto123", { expiresIn: "2h" });
+  res.json({ mensaje: "Login exitoso", token });
+});
+
+
 export default router;

@@ -1,5 +1,6 @@
 import express from "express";
 import Juego from "../models/juego.js";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -27,5 +28,19 @@ router.delete("/:id", async (req, res) => {
   await Juego.findByIdAndDelete(req.params.id);
   res.json({ mensaje: "Juego eliminado" });
 });
+
+const verificarToken = (req, res, next) => {
+  const header = req.headers.authorization;
+  if (!header) return res.status(403).json({ mensaje: "Token no proporcionado" });
+  try {
+    const token = header.split(" ")[1];
+    const decoded = jwt.verify(token, "secreto123");
+    req.usuarioId = decoded.id;
+    next();
+  } catch {
+    res.status(401).json({ mensaje: "Token inválido" });
+  }
+};
+
 
 export default router;

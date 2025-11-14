@@ -19,6 +19,7 @@ router.post("/", async (req, res) => {
       completado: req.body.completado,
       genero: req.body.genero,
       resena: req.body.resena,
+      rating: req.body.rating,
       creadoPor: req.body.creadoPor || null
     });
 

@@ -7,7 +7,7 @@ const juegoSchema = new mongoose.Schema({
   completado: { type: Boolean, default: false },
   genero: { type: String, default: null },
   resena: { type: String, default: null },
-  rating: { type: Number, default: 0 },
+  rating: { type: Number,required: false, default: 0 },
   creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario", default: null }
 });
 

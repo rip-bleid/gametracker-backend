@@ -1,6 +1,5 @@
 import express from "express";
 import Juego from "../models/juego.js";
-import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -12,10 +11,22 @@ router.get("/", async (req, res) => {
 
 // Crear nuevo juego
 router.post("/", async (req, res) => {
-  const nuevoJuego = new Juego(req.body);
-  await nuevoJuego.save();
-  res.json(nuevoJuego);
+  try {
+    const nuevoJuego = new Juego({
+      titulo: req.body.titulo,
+      imagen: req.body.imagen,
+      horasJugadas: req.body.horasJugadas,
+      completado: req.body.completado,
+      creadoPor: req.body.creadoPor || null
+    });
+
+    await nuevoJuego.save();
+    res.status(201).json({ mensaje: "Juego agregado correctamente", juego: nuevoJuego });
+  } catch (error) {
+    res.status(500).json({ mensaje: "Error al agregar juego", error });
+  }
 });
+
 
 // Editar juego
 router.put("/:id", async (req, res) => {
@@ -28,19 +39,5 @@ router.delete("/:id", async (req, res) => {
   await Juego.findByIdAndDelete(req.params.id);
   res.json({ mensaje: "Juego eliminado" });
 });
-
-const verificarToken = (req, res, next) => {
-  const header = req.headers.authorization;
-  if (!header) return res.status(403).json({ mensaje: "Token no proporcionado" });
-  try {
-    const token = header.split(" ")[1];
-    const decoded = jwt.verify(token, "secreto123");
-    req.usuarioId = decoded.id;
-    next();
-  } catch {
-    res.status(401).json({ mensaje: "Token inválido" });
-  }
-};
-
 
 export default router;

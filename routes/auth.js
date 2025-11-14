@@ -51,10 +51,8 @@ router.post("/login", async (req, res) => {
   if (usuario.contraseña !== contraseña)
     return res.status(401).json({ mensaje: "Contraseña incorrecta" });
 
-  // 🧠 Crear token
-  const token = jwt.sign({ id: usuario._id }, "secreto123", { expiresIn: "2h" });
-  res.json({ mensaje: "Login exitoso", token });
+   
 });
 
 
-export default router;
+export default router;  

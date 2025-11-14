@@ -1,14 +1,13 @@
 import mongoose from "mongoose";
 
 const juegoSchema = new mongoose.Schema({
-  nombre: { type: String, required: true },
-  genero: String,
-  plataforma: String,
-  año: Number,
-  imagen: String,
-  horasJugadas: Number,
-  terminado: Boolean,
-  usuario: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario" } // 🧩 relación con usuario
+  titulo: { type: String, required: true },
+  imagen: { type: String },
+  horasJugadas: { type: Number, default: 0 },
+  completado: { type: Boolean, default: false },
+  genero: { type: String, default: null },
+  resena: { type: String, default: null },
+  creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario", default: null }
 });
 
 export default mongoose.model("Juego", juegoSchema);

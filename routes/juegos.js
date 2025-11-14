@@ -17,6 +17,8 @@ router.post("/", async (req, res) => {
       imagen: req.body.imagen,
       horasJugadas: req.body.horasJugadas,
       completado: req.body.completado,
+      genero: req.body.genero,
+      resena: req.body.resena,
       creadoPor: req.body.creadoPor || null
     });
 

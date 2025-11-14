@@ -30,6 +30,18 @@ router.post("/", async (req, res) => {
   }
 });
 
+// Obtener un juego por ID
+router.get("/:id", async (req, res) => {
+  try {
+    const juego = await Juego.findById(req.params.id);
+    if (!juego) return res.status(404).json({ mensaje: "Juego no encontrado" });
+
+    res.json(juego);
+  } catch (error) {
+    res.status(500).json({ mensaje: "Error al obtener juego", error });
+  }
+});
+
 
 // Editar juego
 router.put("/:id", async (req, res) => {

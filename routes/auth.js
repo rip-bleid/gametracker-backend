@@ -1,3 +1,4 @@
+// backend/routes/auth.js
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -20,39 +21,39 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// ----------------------------------
+// ----------------------------------------
 // REGISTER
-// ----------------------------------
+// ----------------------------------------
 router.post("/register", async (req, res) => {
   try {
     const { nombre, email, password } = req.body;
     if (!nombre || !email || !password)
       return res.status(400).json({ mensaje: "Datos incompletos" });
 
-    let existe = await Usuario.findOne({ email });
+    const existe = await Usuario.findOne({ email });
     if (existe)
       return res.status(400).json({ mensaje: "Email ya registrado" });
 
-    const salt = await bcrypt.genSalt(10);
-    const hashed = await bcrypt.hash(password, salt);
+    const hashed = await bcrypt.hash(password, 10);
 
     const usuario = new Usuario({
       nombre,
       email,
       password: hashed,
     });
+
     await usuario.save();
 
-    res.json({ mensaje: "Usuario registrado" });
+    res.json({ mensaje: "Usuario registrado correctamente" });
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).json({ mensaje: "Error en registro" });
   }
 });
 
-// ----------------------------------
+// ----------------------------------------
 // LOGIN
-// ----------------------------------
+// ----------------------------------------
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -77,17 +78,20 @@ router.post("/login", async (req, res) => {
       token,
     });
   } catch (err) {
-    console.error(err);
+    console.log(err);
     res.status(500).json({ mensaje: "Error en login" });
   }
 });
 
-// ----------------------------------
+// ----------------------------------------
 // SUBIR FOTO DE PERFIL
-// ----------------------------------
+// ----------------------------------------
 router.post("/subir-foto", upload.single("foto"), async (req, res) => {
   try {
     const { id } = req.body;
+
+    if (!req.file)
+      return res.status(400).json({ mensaje: "No se envió ninguna imagen" });
 
     const nuevaRuta = `/uploads/${req.file.filename}`;
 

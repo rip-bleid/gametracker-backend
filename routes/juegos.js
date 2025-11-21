@@ -20,7 +20,8 @@ router.post("/", async (req, res) => {
       genero: req.body.genero,
       resena: req.body.resena,
       rating: req.body.rating,
-      creadoPor: req.body.creadoPor || null
+      creadoPor: req.body.creadoPor || null,
+      creadoPorNombre: req.body.creadoPorNombre || null
     });
 
     await nuevoJuego.save();

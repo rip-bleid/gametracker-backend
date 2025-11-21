@@ -8,7 +8,8 @@ const juegoSchema = new mongoose.Schema({
   genero: { type: String, default: null },
   resena: { type: String, default: null },
   rating: { type: Number,required: false, default: 0 },
-  creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario", default: null }
+  creadoPor: { type: mongoose.Schema.Types.ObjectId, ref: "Usuario", default: null },
+  creadoPorNombre: { type: String, default: "Anónimo" },
 });
 
 export default mongoose.model("Juego", juegoSchema);
